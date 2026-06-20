@@ -6,8 +6,8 @@ LivePoll is a complete mini decentralized application (dApp) built on **Stellar*
 
 # Level 3 Submission Checklist
 
-* **Live Demo:** https://online-live-poll-liard.vercel.app/
-* **GitHub Repository:** https://github.com/AYUSHKRSHARMA4986/online-live-poll-lvl3
+* **Live Demo:** https://live-online-poll-lvl3.vercel.app/
+* **GitHub Repository:** https://github.com/aksharmaworkaholic/live_online_poll_lvl3
 * **Demo Video:** https://drive.google.com/file/d/1SR8RxqQMYTR2mG-opvBFGaUaCffiQFiw/view?usp=sharing
 * **Complete Documentation (README):** ✅ Included below
 * **10+ Meaningful Git Commits:** ✅ Completed
@@ -82,35 +82,30 @@ The frontend automatically refreshes poll information by monitoring recent on-ch
 
 ## 🏠 Home Page
 
-![Screenshot 2026-06-18 115214.png](tempo_ss/Screenshot%202026-06-18%20115214.png)
+![Screenshot 2026-06-20 143531.png](Screenshot%202026-06-20%20143531.png)
 
 ## 📝 Create Poll
 
-![Screenshot 2026-06-18 115544.png](tempo_ss/Screenshot%202026-06-18%20115544.png)
-
+![Screenshot 2026-06-20 143605.png](Screenshot%202026-06-20%20143605.png)
 ## 🗳️ Voting Interface
 
-![Screenshot 2026-06-18 120110.png](tempo_ss/Screenshot%202026-06-18%20120110.png)
-
+![Screenshot 2026-06-20 143623.png](Screenshot%202026-06-20%20143623.png)
 ## ⚙️ CI/CD Pipeline
 
-![Screenshot 2026-06-18 210708.png](tempo_ss/Screenshot%202026-06-18%20210708.png)
-
+![Screenshot 2026-06-20 143641.png](Screenshot%202026-06-20%20143641.png)
 ---
 
 # Mobile Responsive Design
 
 The screenshot below demonstrates the application's responsiveness on mobile devices.
 
-![Screenshot\_20260618\_215951\_Chrome.jpg](tempo_ss/Screenshot_20260618_215951_Chrome.jpg)
-
----
+---![WhatsApp Image 2026-06-20 at 15.12.08.jpeg](WhatsApp%20Image%202026-06-20%20at%2015.12.08.jpeg)
 
 # Smart Contract Deployment
 
 * **Network:** Stellar Testnet
-* **Contract Address:** `CBT5GCDC2ZGBVPBOOLHI6DB5UDMX33XBQMOUQAEOJNE3I5I3DCVJKOD4`
-* **Explorer Link:** https://stellar.expert/explorer/testnet/contract/CBT5GCDC2ZGBVPBOOLHI6DB5UDMX33XBQMOUQAEOJNE3I5I3DCVJKOD4
+* **Contract Address:** `CDOK7FLLXPHGZUH4DNRPJXSJFUFSJ4C2MQOM4LC2GDDLVMV6N52JYRR3`
+* **Explorer Link:** https://stellar.expert/explorer/testnet/contract/CDOK7FLLXPHGZUH4DNRPJXSJFUFSJ4C2MQOM4LC2GDDLVMV6N52JYRR3
 
 ---
 
@@ -118,13 +113,13 @@ The screenshot below demonstrates the application's responsiveness on mobile dev
 
 ### ➡️ Deployment Transaction
 
-* **Transaction Hash:** `9cc1509985bdd889c47f02e0cf5b29b39a4be3c61d363a60e841ffa3b8a10c62`
-* **Explorer:** https://stellar.expert/explorer/testnet/tx/9cc1509985bdd889c47f02e0cf5b29b39a4be3c61d363a60e841ffa3b8a10c62
+* **Transaction Hash:** `46590eb8774c8b604fddf776d2d2e114b107718c5c781d96b3a409dd47bbe332`
+* **Explorer:** https://stellar.expert/explorer/testnet/tx/46590eb8774c8b604fddf776d2d2e114b107718c5c781d96b3a409dd47bbe332
 
 ### ➡️ Sample `create_poll` Transaction
 
-* **Transaction Hash:** `1fd899d9a98e7b262ec7ed357add3d65e7470808d2c715bcb73a94b0b6c69e2d`
-* **Explorer:** https://stellar.expert/explorer/testnet/tx/1fd899d9a98e7b262ec7ed357add3d65e7470808d2c715bcb73a94b0b6c69e2d
+* **Transaction Hash:** `54040b1a9784388034c9fcfb0209beaed20a0402a5cdb68115960f8ae0748daa`
+* **Explorer:** https://stellar.expert/explorer/testnet/tx/54040b1a9784388034c9fcfb0209beaed20a0402a5cdb68115960f8ae0748daa
 
 ---
 
@@ -139,7 +134,7 @@ The custom contract logic and compiled WASM can be verified using the resources 
 
 # Live Demo
 
-➡️ https://online-live-poll-liard.vercel.app/
+➡️  https://live-online-poll-lvl3.vercel.app/
 
 ---
 
