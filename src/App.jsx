@@ -228,11 +228,24 @@ export default function App() {
         </header>
 
         {/* SUPPORTED WALLETS BANNER */}
+        {/* SUPPORTED WALLETS BANNER */}
         <div className="wallets-banner">
-          <span className="wallets-label">Supported Wallets:</span>
-          <span className="wallet-pill">🔐 Freighter</span>
-          <span className="wallet-pill">📧 Albedo</span>
-          <span className="wallet-pill">🦊 xBull</span>
+          <div className="wallets-header-text">
+            <span className="wallets-title">Connect any Stellar wallet to vote</span>
+            <span className="wallets-subtitle">
+            Works with 8+ wallets via StellarWalletsKit. Create polls, cast votes, and close polls directly from the browser.
+          </span>
+          </div>
+          <div className="wallets-pill-container">
+            <span className="wallet-pill">🔐 Freighter</span>
+            <span className="wallet-pill">📧 Albedo</span>
+            <span className="wallet-pill">🦊 xBull</span>
+            <span className="wallet-pill">🐰 Rabet</span>
+            <span className="wallet-pill">🦞 Lobstr</span>
+            <span className="wallet-pill">🌸 Hana</span>
+            <span className="wallet-pill">🔥 Hot Wallet</span>
+            <span className="wallet-pill">🛡️ Klever</span>
+          </div>
         </div>
 
         {/* NOTICES */}

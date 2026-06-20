@@ -46,154 +46,63 @@
 }
 
 /* --- Supported Wallets Banner --- */
+/* --- Supported Wallets Banner --- */
 .wallets-banner {
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(10px);
   border-radius: 12px;
-  padding: 1rem 1.5rem;
+  padding: 1.5rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin-bottom: 2rem;
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1.2rem;
   animation: fade-in-up 0.4s ease-out;
 }
 
-.wallets-label {
+.wallets-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.wallets-title {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.wallets-subtitle {
   color: #94a3b8;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: bold;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.wallets-pill-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .wallet-pill {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #e2e8f0;
-  padding: 0.35rem 0.8rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 20px;
   font-size: 0.85rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-/* --- Buttons --- */
-.primary-btn {
-  background: #8b5cf6;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
   transition: all 0.2s ease;
+  cursor: default;
 }
 
-.primary-btn:hover:not(:disabled) {
-  background: #7c3aed;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-}
-
-.primary-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.primary-btn.connected {
-  background: rgba(16, 185, 129, 0.2);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  animation: pulse-glow 3s infinite;
-}
-
-.danger-btn {
-  background: rgba(239, 68, 68, 0.1);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 1rem;
-  transition: all 0.2s;
-}
-
-.danger-btn:hover {
-  background: rgba(239, 68, 68, 0.3);
-}
-
-.expert-link-btn {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
-  padding: 0.5rem 0.8rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  text-decoration: none;
-  margin-top: 1rem;
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  transition: all 0.2s;
-  width: 100%;
-  justify-content: center;
-  font-weight: 600;
-}
-
-.expert-link-btn:hover {
-  background: rgba(59, 130, 246, 0.2);
-  color: #60a5fa;
+.wallet-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
-}
-
-/* --- Stats Grid --- */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.stat-card {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.stat-label {
-  color: #94a3b8;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: 800;
-  color: white;
-}
-
-/* --- Layout Grids --- */
-.dashboard-columns {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-@media (max-width: 900px) {
-  .dashboard-columns {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* --- Create Section --- */
