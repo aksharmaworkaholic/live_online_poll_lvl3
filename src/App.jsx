@@ -228,15 +228,14 @@ export default function App() {
         </header>
 
         {/* SUPPORTED WALLETS BANNER */}
-        <div className="wallets-pill-container">
+        <div className="wallets-banner">
+          <span className="wallets-label">Supported Wallets:</span>
           <span className="wallet-pill">🔐 Freighter</span>
           <span className="wallet-pill">📧 Albedo</span>
           <span className="wallet-pill">🦊 xBull</span>
-          <span className="wallet-pill">🐰 Rabet</span>
-          <span className="wallet-pill">🦞 Lobstr</span>
-          <span className="wallet-pill">🌸 Hana</span>
-          <span className="wallet-pill"> and more</span>
+          <span className="wallet-pill"> + 5 more </span>
         </div>
+
         {/* NOTICES */}
         {notice && (
             <div className={`notice-bar ${notice.type}`}>
