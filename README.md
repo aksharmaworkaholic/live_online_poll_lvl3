@@ -92,8 +92,7 @@ The frontend automatically refreshes poll information by monitoring recent on-ch
 ![Screenshot 2026-06-20 143623.png](Screenshot%202026-06-20%20143623.png)
 ## ⚙️ CI/CD Pipeline
 
-![Screenshot 2026-06-20 143641.png](Screenshot%202026-06-20%20143641.png)
----
+![Screenshot 2026-06-20 152207.png](Screenshot%202026-06-20%20152207.png)---
 
 # Mobile Responsive Design
 
