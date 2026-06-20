@@ -8,7 +8,7 @@ LivePoll is a complete mini decentralized application (dApp) built on **Stellar*
 
 * **Live Demo:** https://live-online-poll-lvl3.vercel.app/
 * **GitHub Repository:** https://github.com/aksharmaworkaholic/live_online_poll_lvl3
-* **Demo Video:** https://drive.google.com/file/d/1SR8RxqQMYTR2mG-opvBFGaUaCffiQFiw/view?usp=sharing
+* **Demo Video:** https://drive.google.com/file/d/1diNyfslOOsMQaZJkjMzTTKtNmENviFJL/view?usp=sharing
 * **Complete Documentation (README):** ✅ Included below
 * **10+ Meaningful Git Commits:** ✅ Completed
 * **Screenshots (Responsive UI, CI/CD, Tests):** ✅ Included below
@@ -195,7 +195,7 @@ npm test
 ```env
 VITE_STELLAR_RPC_URL=https://soroban-testnet.stellar.org
 VITE_STELLAR_NETWORK_PASSPHRASE=Test SDF Network ; September 2015
-VITE_STELLAR_CONTRACT_ID=CBT5GCDC2ZGBVPBOOLHI6DB5UDMX33XBQMOUQAEOJNE3I5I3DCVJKOD4
+VITE_STELLAR_CONTRACT_ID=CDOK7FLLXPHGZUH4DNRPJXSJFUFSJ4C2MQOM4LC2GDDLVMV6N52JYRR3
 VITE_STELLAR_READ_ACCOUNT=
 VITE_STELLAR_EXPLORER_URL=https://stellar.expert/explorer/testnet
 VITE_POLL_CONTRACT_WASM_URL=/contracts/poll_contract.wasm
@@ -238,7 +238,7 @@ This application uses a standard Vite deployment process.
 
 # Demo Video
 
-➡️ https://drive.google.com/file/d/1SR8RxqQMYTR2mG-opvBFGaUaCffiQFiw/view?usp=sharing
+➡️ https://drive.google.com/file/d/1diNyfslOOsMQaZJkjMzTTKtNmENviFJL/view?usp=sharing
 
 ### Demonstration Flow
 
