@@ -31,7 +31,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -43,6 +43,41 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 4s linear infinite;
+}
+
+/* --- Supported Wallets Banner --- */
+.wallets-banner {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  animation: fade-in-up 0.4s ease-out;
+}
+
+.wallets-label {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
+
+.wallet-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 /* --- Buttons --- */
@@ -91,14 +126,83 @@
   background: rgba(239, 68, 68, 0.3);
 }
 
+.expert-link-btn {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all 0.2s;
+  width: 100%;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.expert-link-btn:hover {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  transform: translateY(-1px);
+}
+
+/* --- Stats Grid --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stat-label {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+}
+
+/* --- Layout Grids --- */
+.dashboard-columns {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 900px) {
+  .dashboard-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* --- Create Section --- */
 .create-section {
   background: rgba(0, 0, 0, 0.3);
   padding: 2rem;
   border-radius: 16px;
   border: 1px dashed rgba(255, 255, 255, 0.1);
-  margin-bottom: 3rem;
-  animation: fade-in-up 0.8s ease-out;
+  height: 100%;
 }
 
 .input-field {
@@ -117,6 +221,85 @@
 
 .input-field:focus {
   border-color: #8b5cf6;
+}
+
+/* Duration Selector */
+.duration-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.duration-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.duration-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.duration-pill.active {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: #8b5cf6;
+  color: white;
+}
+
+/* --- System Panels --- */
+.system-panel {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.panel-header {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.phase-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.1);
+}
+.phase-badge.success { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.phase-badge.pending { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.phase-badge.error { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+/* Event Feed */
+.event-feed {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+.event-feed::-webkit-scrollbar { width: 6px; }
+.event-feed::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+
+.event-item {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  border-left: 2px solid #8b5cf6;
 }
 
 /* --- Poll Cards --- */

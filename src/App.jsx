@@ -9,11 +9,13 @@ import {
   fetchPolls,
   fetchVoteStatuses,
   submitContractTransaction,
+  getExplorerLink
 } from './lib/stellar'
 import { readCachedPolls, writeCachedPolls } from './lib/pollCache'
-import { getPollState } from './lib/pollLogic'
+import { getPollState, mergeRecentEvents } from './lib/pollLogic'
 
 const EMPTY_FORM = { question: '', options: ['', ''], duration: 60 }
+const DURATION_PRESETS = [5, 15, 30, 60, 180, 1440]
 
 function shortenAddress(address) {
   if (!address) return 'Not connected'
@@ -54,13 +56,22 @@ export default function App() {
   const [isBooting, setIsBooting] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [isWalletBusy, setIsWalletBusy] = useState(false)
+  const [transaction, setTransaction] = useState({ phase: 'idle', message: 'Ready for activity.', hash: null })
+  const [recentEvents, setRecentEvents] = useState([])
+  const [lastSyncedAt, setLastSyncedAt] = useState(new Date().toLocaleTimeString())
 
   const eventCursorRef = useRef(null)
   const refreshPollStateRef = useRef(null)
   const syncFromEventsRef = useRef(null)
 
   const visiblePolls = useMemo(() => {
-    return polls.sort((left, right) => left.expiresAt - right.expiresAt)
+    return [...polls].sort((left, right) => left.expiresAt - right.expiresAt)
+  }, [polls])
+
+  const stats = useMemo(() => {
+    const activePolls = polls.filter((poll) => getPollState(poll) === 'active').length
+    const totalVotes = polls.reduce((sum, poll) => sum + poll.votes.reduce((vSum, vote) => vSum + vote, 0), 0)
+    return { totalPolls: polls.length, activePolls, totalVotes }
   }, [polls])
 
   useEffect(() => {
@@ -77,8 +88,9 @@ export default function App() {
     setNotice({ type, title, message })
   }
 
-  function handleFailure(error) {
+  function handleFailure(error, txPhase = 'error') {
     const parsed = classifyError(error)
+    setTransaction((prev) => ({ phase: txPhase, message: parsed.message, hash: prev.hash }))
     showNotice('error', parsed.title, parsed.message)
     return parsed
   }
@@ -96,6 +108,7 @@ export default function App() {
       const nextVotes = await fetchVoteStatuses(nextPolls, wallet?.address, readAddress)
       setPolls(nextPolls)
       setVoteLookup(nextVotes)
+      setLastSyncedAt(new Date().toLocaleTimeString())
     } catch (error) {
       handleFailure(error)
     } finally {
@@ -110,6 +123,7 @@ export default function App() {
       const eventBatch = await fetchContractEvents(eventCursorRef.current)
       eventCursorRef.current = eventBatch.cursor
       if (eventBatch.events.length > 0) {
+        setRecentEvents((current) => mergeRecentEvents(current, eventBatch.events))
         await refreshPollState({ silent: true })
       }
     } catch (error) {
@@ -145,10 +159,22 @@ export default function App() {
     showNotice('info', 'Disconnected', 'Wallet disconnected.')
   }
 
+  function updateTransactionStatus(update) {
+    let msg = "Processing..."
+    if (update.phase === 'awaiting-signature') msg = "Waiting for wallet signature..."
+    if (update.phase === 'pending') msg = "Transaction submitted to network..."
+    setTransaction((current) => ({ ...current, ...update, message: msg }))
+  }
+
   async function runContractWrite(method, args, successTitle, successMessage) {
     if (!wallet?.address) return false
     try {
-      await submitContractTransaction({ method, args, address: wallet.address, onStatus: () => {} })
+      setTransaction({ phase: 'preparing', message: 'Simulating transaction...', hash: null })
+      await submitContractTransaction({ method, args, address: wallet.address, onStatus: updateTransactionStatus })
+
+      // Preserve the hash from the 'pending' update when moving to 'success'
+      setTransaction((prev) => ({ ...prev, phase: 'success', message: 'Transaction confirmed on-chain!' }))
+
       showNotice('success', successTitle, successMessage)
       await refreshPollState({ silent: true })
       return true
@@ -201,6 +227,14 @@ export default function App() {
           </button>
         </header>
 
+        {/* SUPPORTED WALLETS BANNER */}
+        <div className="wallets-banner">
+          <span className="wallets-label">Supported Wallets:</span>
+          <span className="wallet-pill">🔐 Freighter</span>
+          <span className="wallet-pill">📧 Albedo</span>
+          <span className="wallet-pill">🦊 xBull</span>
+        </div>
+
         {/* NOTICES */}
         {notice && (
             <div className={`notice-bar ${notice.type}`}>
@@ -208,46 +242,140 @@ export default function App() {
             </div>
         )}
 
-        {/* CREATE POLL */}
-        {wallet?.address && (
-            <div className="create-section">
-              <h2>Deploy a New Poll</h2>
-              <input
-                  type="text"
-                  className="input-field"
-                  placeholder="What should the community vote on?"
-                  value={form.question}
-                  onChange={(e) => setForm((c) => ({ ...c, question: e.target.value }))}
-              />
+        {/* STATS ROW */}
+        <div className="stats-grid">
+          <div className="stat-card">
+            <span className="stat-label">Total Polls</span>
+            <span className="stat-value">{stats.totalPolls}</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Active Polls</span>
+            <span className="stat-value">{stats.activePolls}</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Total Votes</span>
+            <span className="stat-value">{stats.totalVotes}</span>
+          </div>
+        </div>
 
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
-                {form.options.map((opt, i) => (
-                    <input
-                        key={i}
-                        className="input-field"
-                        style={{ width: '45%', marginTop: 0 }}
-                        value={opt}
-                        onChange={(e) => updateOption(i, e.target.value)}
-                        placeholder={`Option ${i + 1}`}
-                    />
-                ))}
+        {/* TWO COLUMN LAYOUT */}
+        <div className="dashboard-columns">
+
+          {/* COLUMN 1: CREATE POLL */}
+          {wallet?.address ? (
+              <div className="create-section">
+                <h2>Deploy a New Poll</h2>
+                <input
+                    type="text"
+                    className="input-field"
+                    placeholder="What should the community vote on?"
+                    value={form.question}
+                    onChange={(e) => setForm((c) => ({ ...c, question: e.target.value }))}
+                />
+
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
+                  {form.options.map((opt, i) => (
+                      <input
+                          key={i}
+                          className="input-field"
+                          style={{ width: '45%', marginTop: 0 }}
+                          value={opt}
+                          onChange={(e) => updateOption(i, e.target.value)}
+                          placeholder={`Option ${i + 1}`}
+                      />
+                  ))}
+                </div>
+
+                <button className="primary-btn" onClick={addOption} style={{ marginTop: '1rem', background: 'rgba(255,255,255,0.1)' }}>
+                  + Add Option
+                </button>
+
+                {/* DURATION SELECTOR */}
+                <div style={{ marginTop: '1.5rem' }}>
+                  <label style={{ color: '#94a3b8', fontSize: '0.875rem', textTransform: 'uppercase' }}>Duration</label>
+                  <div className="duration-selector">
+                    {DURATION_PRESETS.map((minutes) => (
+                        <button
+                            key={minutes}
+                            className={`duration-pill ${minutes === form.duration ? 'active' : ''}`}
+                            onClick={() => setForm((current) => ({ ...current, duration: minutes }))}
+                            type="button"
+                        >
+                          {minutes >= 60 ? `${minutes / 60}h` : `${minutes}m`}
+                        </button>
+                    ))}
+                  </div>
+                </div>
+
+                {formError && <p style={{ color: '#ef4444', marginTop: '1rem' }}>{formError}</p>}
+
+                <button
+                    className="primary-btn"
+                    onClick={handleCreatePoll}
+                    disabled={transaction.phase === 'preparing' || transaction.phase === 'pending'}
+                    style={{ width: '100%', marginTop: '2rem' }}
+                >
+                  {transaction.phase === 'preparing' || transaction.phase === 'pending' ? 'Submitting...' : 'Deploy Poll'}
+                </button>
+              </div>
+          ) : (
+              <div className="create-section" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <h3 style={{ marginBottom: '1rem' }}>Wallet Required</h3>
+                <p style={{ color: '#94a3b8', marginBottom: '2rem' }}>Connect your Stellar wallet to deploy on-chain polls.</p>
+                <button className="primary-btn" onClick={handleConnectWallet}>Connect Wallet</button>
+              </div>
+          )}
+
+          {/* COLUMN 2: SYSTEM PANELS */}
+          <div>
+            {/* TRANSACTION PANEL */}
+            <div className="system-panel">
+              <div className="panel-header">
+                <span>Transaction Status</span>
+                <span className={`phase-badge ${transaction.phase === 'success' ? 'success' : transaction.phase === 'error' ? 'error' : transaction.phase !== 'idle' ? 'pending' : ''}`}>
+                {transaction.phase}
+              </span>
+              </div>
+              <p style={{ fontSize: '0.9rem', color: '#e2e8f0' }}>{transaction.message}</p>
+
+              {/* Added Stellar Expert Link for Transactions */}
+              {transaction.hash && getExplorerLink && (
+                  <a href={getExplorerLink('tx', transaction.hash)} className="expert-link-btn" target="_blank" rel="noreferrer">
+                    View Transaction on Stellar Expert ↗
+                  </a>
+              )}
+            </div>
+
+            {/* LIVE SYNC PANEL */}
+            <div className="system-panel">
+              <div className="panel-header">
+                <span>Live Sync</span>
+                <span style={{ color: '#34d399', fontSize: '0.75rem' }}>● Last sync: {lastSyncedAt}</span>
               </div>
 
-              <button className="primary-btn" onClick={addOption} style={{ marginTop: '1rem', background: 'rgba(255,255,255,0.1)' }}>
-                + Add Option
-              </button>
+              {recentEvents.length === 0 ? (
+                  <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Waiting for network activity...</p>
+              ) : (
+                  <div className="event-feed">
+                    {recentEvents.map((event) => (
+                        <div key={event.id} className="event-item">
+                          <strong style={{ color: event.action === 'close' ? '#f87171' : '#8b5cf6' }}>{event.action.toUpperCase()}</strong>
+                          <span style={{ color: '#cbd5e1', marginLeft: '0.5rem' }}>{event.summary}</span>
+                        </div>
+                    ))}
+                  </div>
+              )}
 
-              {formError && <p style={{ color: '#ef4444', marginTop: '1rem' }}>{formError}</p>}
-
-              <button
-                  className="primary-btn"
-                  onClick={handleCreatePoll}
-                  style={{ width: '100%', marginTop: '2rem' }}
-              >
-                Deploy Poll
-              </button>
+              {/* Added Stellar Expert Link for Smart Contract */}
+              {CONTRACT_ID && getExplorerLink && (
+                  <a href={getExplorerLink('contract', CONTRACT_ID)} className="expert-link-btn" target="_blank" rel="noreferrer">
+                    View Contract on Stellar Expert ↗
+                  </a>
+              )}
             </div>
-        )}
+          </div>
+
+        </div>
 
         {/* ACTIVE POLLS FEED */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
